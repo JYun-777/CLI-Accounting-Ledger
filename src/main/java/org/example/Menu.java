@@ -16,16 +16,21 @@ public class Menu {
 
             switch (menuChoice){
                 case "D":
-                    addDeposit();
+                    depositPrompt();
                 case "P":
-                    makePayment();
+                    paymentPrompt();
                 case "L":
-                    openLedger();
+                    ledgerMenu();
                 case "X":
                     break;
             }
         }
+    }
 
+    public static void ledgerMenu(){
+        //All entries should show newest entry first
+        System.out.println("~~~~~~~~~~~~ LEDGER ~~~~~~~~~~~~~\nPlease select an option:\n" +
+                " A) All\n D) Deposits\n P) Payments\n H) Return to Home");
     }
 
 }
