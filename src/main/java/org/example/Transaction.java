@@ -3,16 +3,27 @@ package org.example;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-java.time.LocalDate;
-java.time.LocalTime;
-
 public class Transaction {
 
     private LocalDate date;
     private LocalTime time;
-    private String productName;
+    private String description;
     private String vendor;
     private float price;
+
+    public Transaction() {
+        //auto grab timestamp
+        setDate();
+        setTime();
+    }
+
+    public Transaction(LocalDate _date, LocalTime _time, String _description, String _vendor, Float _price){
+        this.date = _date;
+        this.time = _time;
+        this.description = _description;
+        this.vendor = _vendor;
+        this.price = _price;
+    }
 
     public LocalDate getDate() {
         return date;
@@ -30,12 +41,12 @@ public class Transaction {
         this.time = LocalTime.now();
     }
 
-    public String getProductName() {
-        return productName;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getVendor() {
