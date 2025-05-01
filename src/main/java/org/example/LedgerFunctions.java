@@ -12,6 +12,11 @@ public class LedgerFunctions {
     public static Scanner read = new Scanner(System.in);
 
 
+    //Display Ledger Entries
+
+
+
+
     //Read transaction list
     //Opens transactions.csv and parses each line into a Transaction object, which gets added to transactionList
     public static void readTransactList(){
@@ -40,9 +45,15 @@ public class LedgerFunctions {
 
     //Write Transact List, to convert the Arraylist into a csv file. If I just make sure to append correctly, I shouldn't need this.
     public static void writeTransactList(){
+        clear();
         try{
+
             FileWriter fw = new FileWriter("transactions.csv",true);
             BufferedWriter bw = new BufferedWriter(fw);
+
+            for (Transaction t : transactionList){
+                writeTransactList(t);
+            }
 
             bw.close();
         }catch(IOException e){
@@ -68,7 +79,7 @@ public class LedgerFunctions {
             FileWriter fw = new FileWriter("transactions.csv",true);
             BufferedWriter bw = new BufferedWriter(fw);
 
-            String transactString = String.format("\n%s\\|%s\\|%s\\|%s\\|%f",
+            String transactString = String.format("\n%s|%s|%s|%s|%f",
                     date, time, description, vendor, price);
 
             bw.write(transactString);
@@ -81,7 +92,16 @@ public class LedgerFunctions {
     }
 
     public static void clear(){
+        try{
+            FileWriter fw = new FileWriter("transactions.csv");
+            BufferedWriter bw = new BufferedWriter(fw);
 
+            bw.write("Date|Time|Description|Vendor|Amount");
+
+            bw.close();
+        }catch(IOException e){
+            System.out.println("File write error");
+        }
     }
 
     //Prompts user for details on a Deposit transaction then adds it to transaction list at current timestamp
@@ -97,7 +117,13 @@ public class LedgerFunctions {
         newTransact.setVendor(read.nextLine());
 
         System.out.print("\nEnter amount of deposit: ");
-        newTransact.setPrice(read.nextFloat());
+
+        //ensure positive
+        float depositPrice = read.nextFloat();
+        depositPrice = Math.abs(depositPrice);
+        newTransact.setPrice(depositPrice);
+        read.nextLine();//eat next line
+
 
         writeTransactList(newTransact);
     }
@@ -115,7 +141,12 @@ public class LedgerFunctions {
         newTransact.setVendor(read.nextLine());
 
         System.out.print("\nEnter amount of payment: ");
-        newTransact.setPrice(read.nextFloat());
+
+        //ensure payment is negative
+        float paymentPrice = read.nextFloat();
+        paymentPrice = Math.abs(paymentPrice) * -1;
+        newTransact.setPrice(paymentPrice);
+        read.nextLine();//eat next line
 
         writeTransactList(newTransact);
     }

@@ -2,11 +2,14 @@ package org.example;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
 
     private LocalDate date;
     private LocalTime time;
+    private String fmtTime;
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss");
     private String description;
     private String vendor;
     private float price;
@@ -25,6 +28,13 @@ public class Transaction {
         this.price = _price;
     }
 
+
+    //Display Individual Transaction
+    //Show 
+    public String displayTransaction(){
+
+    }
+
     public LocalDate getDate() {
         return date;
     }
@@ -39,6 +49,7 @@ public class Transaction {
 
     public void setTime() {
         this.time = LocalTime.now();
+        this.fmtTime = time.format(timeFormatter);
     }
 
     public String getDescription() {

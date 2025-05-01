@@ -41,8 +41,13 @@ public class Menu {
     }
     public static void ledgerMenu(){
         //All entries should show newest entry first
-        System.out.println("~~~~~~~~~~~~ LEDGER ~~~~~~~~~~~~~\nPlease select what you would like to view:\n" +
-                " A) All\n D) Deposits\n P) Payments\n H) Return to Home");
+        System.out.println("""
+                ~~~~~~~~~~~~ LEDGER ~~~~~~~~~~~~~
+                Please select what you would like to view:
+                 A) All
+                 D) Deposits
+                 P) Payments
+                 H) Return to Home""");
         System.out.print("\n>>");
         menuChoice = read.nextLine();
 
@@ -74,6 +79,7 @@ public class Menu {
                 menuChoice = read.nextLine();
                 if (menuChoice.equalsIgnoreCase("y")) {
                     LedgerFunctions.clear();
+                    System.out.println("Ledger cleared.");
                 } else {
                     break;
                 }
