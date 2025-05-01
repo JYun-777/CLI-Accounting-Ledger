@@ -11,7 +11,7 @@ public class Menu {
         menuLoop:
         while(true){
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~ AUTOMATED LEDGER SYSTEM ~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
             System.out.print("Please select an option:\n" +
                     " D) Add Deposit\n P) Make Payment (Debit)\n" +
@@ -44,7 +44,7 @@ public class Menu {
     public static void ledgerMenu(){
         //All entries should show newest entry first
         System.out.println("~~~~~~~~~~~~~~~ LEDGER ~~~~~~~~~~~~~~~~~~");
-        try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
         System.out.println("""
                 Please select what you would like to view:
@@ -57,6 +57,7 @@ public class Menu {
 
         switch (menuChoice.toLowerCase()){
             case "a":
+                LedgerFunctions.displayLedger();
                 break;
             case "d":
                 break;
@@ -72,7 +73,7 @@ public class Menu {
 
     public static void otherMenu(){
         System.out.println("~~~~~~~~~~~~ ADDITIONAL OPTIONS ~~~~~~~~~~~~~");
-        try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
         System.out.println("Please select what you would like to do:\n" +
                 " C) Clear transaction records\n H) Return to Home");

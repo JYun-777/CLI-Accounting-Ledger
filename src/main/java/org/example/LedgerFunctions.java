@@ -13,8 +13,19 @@ public class LedgerFunctions {
 
 
     //Display Ledger Entries
+    //
 
+    public static void displayLedger(){
 
+        System.out.printf(" %-12s| %-12s| %-30s| %-30s| %-12s\n", "Date", "Time", "Description", "Vendor", "Price");
+        System.out.println("-------------|-------------|-------------------------------|-------------------------------|--------------------------");
+        for ( Transaction t : transactionList){
+            t.displayTransaction();
+        }
+
+        System.out.println("\nPress enter to continue...");
+        read.nextLine();
+    }
 
 
     //Read transaction list
@@ -143,7 +154,7 @@ public class LedgerFunctions {
     public static void addPayment() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~ Enter Payment ~~~~~~~~~~~~~~~~~~~~~~~~");
         try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
- 
+
         //add new transaction
         Transaction newTransact = new Transaction();
 
