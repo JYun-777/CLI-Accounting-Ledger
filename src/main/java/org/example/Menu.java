@@ -13,7 +13,7 @@ public class Menu {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~ AUTOMATED LEDGER SYSTEM ~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.print("Please select an option:\n" +
                     " D) Add Deposit\n P) Make Payment (Debit)\n" +
-                    " L) Ledger\n X) Exit\n\n>>");
+                    " L) Ledger\n O) Other options\n X) Exit\n\n>>");
 
             menuChoice = read.nextLine();
 
@@ -26,6 +26,9 @@ public class Menu {
                     break;
                 case "l":
                     ledgerMenu();
+                    break;
+                case "o":
+                    otherMenu();
                     break;
                 case "x":
                     System.out.println("Have a nice day!");
@@ -51,6 +54,35 @@ public class Menu {
             case "p":
                 break;
             case "h":
+                break;
+            default:
+                System.out.println("Invalid option, Please try again");
+                break;
+        }
+    }
+
+    public static void otherMenu(){
+        System.out.println("~~~~~~~~~~~~ ADDITIONAL OPTIONS ~~~~~~~~~~~~~\nPlease select what you would like to do:\n" +
+                " C) Clear transaction records\n H) Return to Home");
+        System.out.print("\n>>");
+        menuChoice = read.nextLine();
+
+        switch (menuChoice.toLowerCase()) {
+            case "c":
+                System.out.println("Are you sure you would like to clear transaction records?\n Enter Y for yes, N for no.");
+                System.out.print(">>");
+                menuChoice = read.nextLine();
+                if (menuChoice.equalsIgnoreCase("y")) {
+                    LedgerFunctions.clear();
+                } else {
+                    break;
+                }
+                break;
+            case "h":
+                homePage();
+                break;
+            default:
+                System.out.println("Invalid option, Please try again");
                 break;
         }
     }

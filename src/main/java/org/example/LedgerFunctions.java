@@ -80,6 +80,10 @@ public class LedgerFunctions {
 
     }
 
+    public static void clear(){
+
+    }
+
     //Prompts user for details on a Deposit transaction then adds it to transaction list at current timestamp
     public static void addDeposit(){
         System.out.println("~~~~~~~~~~~~~~~~~~~~~ Enter Deposit ~~~~~~~~~~~~~~~~~~~~~~~~");
