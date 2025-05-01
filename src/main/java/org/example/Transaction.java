@@ -30,9 +30,10 @@ public class Transaction {
 
 
     //Display Individual Transaction
-    //Show 
+    //Print out a line cleanly displaying the date, time, description, vendor, and amount for this transaction
+    //Limit the description and vendor character count
     public String displayTransaction(){
-
+        return ":)";
     }
 
     public LocalDate getDate() {
@@ -43,8 +44,8 @@ public class Transaction {
         this.date = LocalDate.now();
     }
 
-    public LocalTime getTime() {
-        return time;
+    public String getTime() {
+        return time.format(timeFormatter);
     }
 
     public void setTime() {
