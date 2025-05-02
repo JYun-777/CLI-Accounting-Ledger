@@ -93,6 +93,7 @@ public class Menu {
                      3) Year to Date
                      4) Previous Year
                      5) Search by Vendor
+                     6) Custom Search
                      0) Back to Ledger Menu
                     """);
             System.out.print("\n>>");
@@ -114,9 +115,9 @@ public class Menu {
                 case "5":
                     LedgerFunctions.displayLedger("vendor");
                     break;
-                //case "6":
-                    //LedgerFunctions.customSearch();
-                    //break;
+                case "6":
+                    LedgerFunctions.customSearch();
+                    break;
                 case "0":
                     break reportsMenuLoop;
                 default:

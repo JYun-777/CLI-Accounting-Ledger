@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -74,6 +75,13 @@ public class LedgerFunctions {
                     condition = t.getVendor().toLowerCase().contains(searchTerm.toLowerCase());
                     break;
                 case "custom":
+                    condition = true;
+                    if(startDate != null){
+                        if (!(t.getDate().isAfter(startDate) && t.getDate().isBefore(endDate) || t.getDate().equals(startDate))) condition = false;
+                    }
+                    if (searchDescription != "") if (!t.getDescription().contains(searchDescription)) condition = false;
+                    if (searchVendor != "") if (!t.getVendor().contains(searchVendor)) condition = false;
+                    if (searchPrice != null) if (!(t.getPrice() == searchPrice)) condition = false;
                     break;
             }
 
@@ -86,6 +94,60 @@ public class LedgerFunctions {
         System.out.printf("\n%d %s found\n", entriesFound, ((entriesFound > 1 || entriesFound == 0) ? "entries" : "entry"));
         System.out.println("\nPress enter to continue...");
         read.nextLine();
+    }
+
+    static LocalDate startDate = null;
+    static LocalDate endDate = null;
+    static String searchDescription = "";
+    static String searchVendor = "";
+    static Float searchPrice = null;
+    //Custom search
+    public static void customSearch(){
+        //init as null
+        startDate = null;
+        endDate = null;
+        searchDescription = null;
+        searchVendor = null;
+        searchPrice = null;
+
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Custom Search ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("Fill out the following fields to find transactions containing those fields. Press enter without typing to skip that field.");
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
+
+        try {
+            System.out.print("\nEnter start date (yyyy-mm-dd): ");
+            String startDateString = read.nextLine();
+            System.out.println(startDateString);
+            if (startDateString != ""){
+                startDate = LocalDate.parse(startDateString);
+            }else startDate = null;
+
+            if (startDateString != "") {
+                System.out.print("\nEnter end date (yyyy-mm-dd): ");
+                endDate = LocalDate.parse(read.nextLine());
+            }else endDate = null;
+
+            System.out.print("\nEnter the description of the transaction: ");
+            searchDescription = read.nextLine();
+
+            System.out.print("\nEnter the vendor or depositor name: ");
+            searchVendor = read.nextLine();
+
+            System.out.print("\nEnter the amount of the transaction: ");
+            String searchPriceString = read.nextLine();
+
+            if (searchPriceString != ""){
+                searchPrice = Float.parseFloat(searchPriceString);
+            } else searchPrice = null;
+
+            displayLedger("custom");
+        } catch (DateTimeParseException e){
+            System.out.println("Invalid Date");
+        } catch (Exception e){
+            System.out.println("Invalid search term");
+            e.printStackTrace();
+        }
+
     }
 
     //Read transaction list
@@ -150,7 +212,7 @@ public class LedgerFunctions {
             FileWriter fw = new FileWriter("transactions.csv",true);
             BufferedWriter bw = new BufferedWriter(fw);
 
-            String transactString = String.format("\n%s|%s|%s|%s|%f",
+            String transactString = String.format("\n%s|%s|%s|%s|%.2f",
                     date, time, description, vendor, price);
 
             bw.write(transactString);

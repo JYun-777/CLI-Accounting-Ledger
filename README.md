@@ -15,7 +15,7 @@ Command line interface application to record financial transactions.
 ![reports_menu.PNG](screenshots/reports_menu.PNG)
 ![ledger_display.PNG](screenshots/ledger_display.PNG)
 
-### Code highlight
+### Code highlight 1: Switch Case Display Ledger
 ```
   //Display Ledger Entries
   public static void displayLedger(String filter){
@@ -89,4 +89,9 @@ Command line interface application to record financial transactions.
       System.out.println("\nPress enter to continue...");
       read.nextLine();
   }
+```
+
+### Code Highlight 2: Overloaded Write Transaction List
+```
+
 ```
