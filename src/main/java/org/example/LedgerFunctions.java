@@ -159,7 +159,6 @@ public class LedgerFunctions {
         }catch(IOException e){
             System.out.println("Write error");
         }
-
     }
 
     //Clear transactions.csv by opening a new filewriter and replace the header
@@ -179,7 +178,7 @@ public class LedgerFunctions {
     //Prompts user for details on a Deposit transaction then adds it to transaction list at current timestamp
     public static void addDeposit(){
         System.out.println("~~~~~~~~~~~~~~~~~~~~~ Enter Deposit ~~~~~~~~~~~~~~~~~~~~~~~~");
-        try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
 
         //add new transaction
@@ -206,14 +205,14 @@ public class LedgerFunctions {
         System.out.printf("Recorded deposit of $%.2f by %s for %s on %s at %s.\n",
                 newTransact.getPrice(),newTransact.getVendor(), newTransact.getDescription(), newTransact.getDate(), newTransact.getTime());
 
-        try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
     }
 
     //Prompts user for details on a Payment transaction then adds it to transaction list at current timestamp
     public static void addPayment() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~ Enter Payment ~~~~~~~~~~~~~~~~~~~~~~~~");
-        try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
         //add new transaction
         Transaction newTransact = new Transaction();
@@ -238,7 +237,7 @@ public class LedgerFunctions {
         System.out.printf("Recorded payment of $%.2f to %s for %s on %s at %s.\n",
                 Math.abs(newTransact.getPrice()),newTransact.getVendor(), newTransact.getDescription(), newTransact.getDate(), newTransact.getTime());
 
-        try{Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+        try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
 
     }
