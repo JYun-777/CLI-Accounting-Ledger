@@ -117,7 +117,6 @@ public class LedgerFunctions {
         try {
             System.out.print("\nEnter start date (yyyy-mm-dd): ");
             String startDateString = read.nextLine();
-            System.out.println(startDateString);
             if (startDateString != ""){
                 startDate = LocalDate.parse(startDateString);
             }else startDate = null;

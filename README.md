@@ -14,84 +14,73 @@ Command line interface application to record financial transactions.
 ![ledger_menu.PNG](screenshots/ledger_menu.PNG)
 ![reports_menu.PNG](screenshots/reports_menu.PNG)
 ![ledger_display.PNG](screenshots/ledger_display.PNG)
+![custom_search.PNG](screenshots/custom_search.PNG)
 
-### Code highlight 1: Switch Case Display Ledger
+### Code highlight: Custom Search
+
 ```
-  //Display Ledger Entries
-  public static void displayLedger(String filter){
-  sortLedger();
+LedgerFunctions.java Line 99
+  static LocalDate startDate = null;
+  static LocalDate endDate = null;
+  static String searchDescription = "";
+  static String searchVendor = "";
+  static Float searchPrice = null;
+  //Custom search
+  public static void customSearch(){
+      //init as null
+      startDate = null;
+      endDate = null;
+      searchDescription = null;
+      searchVendor = null;
+      searchPrice = null;
   
-      String searchTerm = "empty";
+      System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Custom Search ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+      System.out.println("Fill out the following fields to find transactions containing those fields. Press enter without typing to skip that field.");
+      try{Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
   
-      switch (filter){
-          case "vendor":
-              System.out.print("Please enter a vendor or depositor name to filter: ");
-              searchTerm = read.nextLine();
+      try {
+          System.out.print("\nEnter start date (yyyy-mm-dd): ");
+          String startDateString = read.nextLine();
+          if (startDateString != ""){
+              startDate = LocalDate.parse(startDateString);
+          }else startDate = null;
+  
+          if (startDateString != "") {
+              System.out.print("\nEnter end date (yyyy-mm-dd): ");
+              endDate = LocalDate.parse(read.nextLine());
+          }else endDate = null;
+  
+          System.out.print("\nEnter the description of the transaction: ");
+          searchDescription = read.nextLine();
+  
+          System.out.print("\nEnter the vendor or depositor name: ");
+          searchVendor = read.nextLine();
+  
+          System.out.print("\nEnter the amount of the transaction: ");
+          String searchPriceString = read.nextLine();
+  
+          if (searchPriceString != ""){
+              searchPrice = Float.parseFloat(searchPriceString);
+          } else searchPrice = null;
+  
+          displayLedger("custom");
+      } catch (DateTimeParseException e){
+          System.out.println("Invalid Date");
+      } catch (Exception e){
+          System.out.println("Invalid search term");
+          e.printStackTrace();
       }
   
-  
-      System.out.printf(" %-12s| %-12s| %-30s| %-30s| %-12s\n", "Date", "Time", "Description", "Vendor", "Price");
-      System.out.println("-------------|-------------|-------------------------------|-------------------------------|--------------------------");
-  
-      Boolean condition = true;
-  
-      int entriesFound = 0;
-  
-      LocalDateTime currentDateTime = LocalDateTime.now();
-      Month currMonth = currentDateTime.getMonth();
-      Month prevMonth = currentDateTime.getMonth().minus(1);
-      int currYear = currentDateTime.getYear();
-      int prevYear = currentDateTime.getYear() - 1;
-      Month transactMonth;
-      int transactYear;
-  
-      for ( Transaction t : transactionList){
-          switch (filter){
-              case "all":
-                  break;
-              case "deposit":
-                  condition = t.getPrice() >= 0f;
-                  break;
-              case "payment":
-                  condition = t.getPrice() <= 0f;
-                  break;
-              case "currMonth":
-                  transactMonth = t.getDateTime().getMonth();
-                  condition =  transactMonth == currMonth && t.getDateTime().isBefore(currentDateTime);
-                  break;
-              case "prevMonth":
-                  transactMonth = t.getDateTime().getMonth();
-                  LocalDateTime lastMonth = currentDateTime.minusMonths(1);
-                  condition =  transactMonth == prevMonth && t.getDateTime().getYear() == lastMonth.getYear();
-                  break;
-              case "currYear":
-                  transactYear = t.getDateTime().getYear();
-                  condition = currYear == transactYear;
-                  break;
-              case "prevYear":
-                  transactYear = t.getDateTime().getYear();
-                  condition = currYear - 1 == transactYear;
-                  break;
-              case "vendor":
-                  condition = t.getVendor().toLowerCase().contains(searchTerm.toLowerCase());
-                  break;
-              case "custom":
-                  break;
-          }
-  
-          if (condition) {
-              t.displayTransaction();
-              entriesFound++;
-          }
-      }
-  
-      System.out.printf("\n%d %s found\n", entriesFound, ((entriesFound > 1 || entriesFound == 0) ? "entries" : "entry"));
-      System.out.println("\nPress enter to continue...");
-      read.nextLine();
   }
-```
 
-### Code Highlight 2: Overloaded Write Transaction List
-```
-
+LedgerFunctions.java line 77
+    case "custom":
+        condition = true;
+        if(startDate != null){
+            if (!(t.getDate().isAfter(startDate) && t.getDate().isBefore(endDate) || t.getDate().equals(startDate))) condition = false;
+        }
+        if (searchDescription != "") if (!t.getDescription().contains(searchDescription)) condition = false;
+        if (searchVendor != "") if (!t.getVendor().contains(searchVendor)) condition = false;
+        if (searchPrice != null) if (!(t.getPrice() == searchPrice)) condition = false;
+        break;
 ```
