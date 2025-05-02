@@ -1,6 +1,7 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -54,6 +55,12 @@ public class Transaction {
         this.time = LocalTime.now();
         this.fmtTime = time.format(timeFormatter);
     }
+
+    public LocalDateTime getDateTime(){
+        LocalDateTime fmtDateTime = LocalDateTime.of(this.date,this.time);
+        return fmtDateTime;
+    }
+
 
     public String getDescription() {
         return description;

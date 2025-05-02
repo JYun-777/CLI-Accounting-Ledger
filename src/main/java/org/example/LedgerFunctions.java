@@ -1,9 +1,9 @@
 package org.example;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class LedgerFunctions {
@@ -11,22 +11,82 @@ public class LedgerFunctions {
     public static ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
     public static Scanner read = new Scanner(System.in);
 
+    //Sort Ledger
+    public static void sortLedger(){
+        transactionList.sort(Comparator.comparing(Transaction::getDateTime).reversed());
+    }
+
 
     //Display Ledger Entries
-    //
+    public static void displayLedger(String filter){
+        sortLedger();
 
-    public static void displayLedger(){
+        String searchTerm = "empty";
+
+        switch (filter){
+            case "vendor":
+                System.out.print("Please enter a vendor or depositor name to filter: ");
+                searchTerm = read.nextLine();
+        }
+
 
         System.out.printf(" %-12s| %-12s| %-30s| %-30s| %-12s\n", "Date", "Time", "Description", "Vendor", "Price");
         System.out.println("-------------|-------------|-------------------------------|-------------------------------|--------------------------");
+
+
+        Boolean condition = true;
+        int entriesFound = 0;
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Month currMonth = currentDateTime.getMonth();
+        Month prevMonth = currentDateTime.getMonth().minus(1);
+        int currYear = currentDateTime.getYear();
+        int prevYear = currentDateTime.getYear() - 1;
+        Month transactMonth;
+        int transactYear;
         for ( Transaction t : transactionList){
-            t.displayTransaction();
+            switch (filter){
+                case "all":
+                    break;
+                case "deposit":
+                    condition = t.getPrice() >= 0f;
+                    break;
+                case "payment":
+                    condition = t.getPrice() <= 0f;
+                    break;
+                case "currMonth":
+                    transactMonth = t.getDateTime().getMonth();
+                    condition =  transactMonth == currMonth && t.getDateTime().isBefore(currentDateTime);
+                    break;
+                case "prevMonth":
+                    transactMonth = t.getDateTime().getMonth();
+                    LocalDateTime lastMonth = currentDateTime.minusMonths(1);
+                    condition =  transactMonth == prevMonth && t.getDateTime().getYear() == lastMonth.getYear();
+                    break;
+                case "currYear":
+                    transactYear = t.getDateTime().getYear();
+                    condition = currYear == transactYear;
+                    break;
+                case "prevYear":
+                    transactYear = t.getDateTime().getYear();
+                    condition = currYear - 1 == transactYear;
+                    break;
+                case "vendor":
+                    condition = t.getVendor().toLowerCase().contains(searchTerm.toLowerCase());
+                    break;
+                case "custom":
+                    break;
+            }
+
+            if (condition) {
+                t.displayTransaction();
+                entriesFound++;
+            }
         }
 
+        System.out.printf("\n%d %s found\n", entriesFound, ((entriesFound > 1 || entriesFound == 0) ? "entries" : "entry"));
         System.out.println("\nPress enter to continue...");
         read.nextLine();
     }
-
 
     //Read transaction list
     //Opens transactions.csv and parses each line into a Transaction object, which gets added to transactionList
