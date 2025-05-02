@@ -18,6 +18,9 @@ Command line interface application to record financial transactions.
 
 ### Code highlight: Custom Search
 
+This code receives various search fields to filter out transactions. 
+It will then loop through the transaction list and display all transactions
+that match the search fields. If a field is left blank, it is skipped.
 ```
 LedgerFunctions.java Line 99
   static LocalDate startDate = null;
